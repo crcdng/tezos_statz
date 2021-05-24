@@ -1,20 +1,41 @@
 # Tezos Statz Demo
 
+![](docs/ui.png)
+
 A small WIP demonstration app written in [Flutter](https://flutter.dev/) that allows to view Tezos blockchain data.
-On Android / iOS it includes a QR code scanner to scan the address. This web demo does not.
+On Android / iOS it includes a QR code scanner to scan the address. This web version does not have this future.
 
 Tezos Statz Demo calls the TzStats REST API provided by https://blockwatch.cc/
 
 The API is documented here: https://tzstats.com/docs/api
 
-The app is published under the Apache license. Not affiliated with TzStats. 
+The code is published under the Apache license. Not affiliated with TzStats. 
+
+## How to run
+
+Get Flutter:
+https://flutter.dev/docs/get-started/install
+
+Run in the browser:
+`flutter run -d chrome`
+
+Run on a mobile device:
+```
+flutter create .
+flutter run -d <your Android device>
+flutter run -d <your iOS device>
+```
+
+## Support development
 
 You can support development and creative digital artwork curation by donating to crcrtn.tez / 
 tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk 
 
+## 3rd party contributions
+
 Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 
-## DONE
+## Progress
 
 - create a minimal implementation, model-free (just functions) 🤯
 - pull to refresh
