@@ -33,7 +33,8 @@ tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk
 
 ## 3rd party contributions
 
-Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
+See `pubspec.yaml` for Flutter package authors    
+Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)    
 
 ## Progress
 
