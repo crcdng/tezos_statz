@@ -31,7 +31,6 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 - address: UI flow Text entry
 - address: UI flow QR scan
 - address: QR scan sound
-- balance: fix LateInitializationError
 
 ## TODO
 
