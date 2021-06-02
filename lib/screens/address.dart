@@ -16,7 +16,7 @@ class AddressScreen extends StatefulWidget {
 class _AddressScreenState extends State<AddressScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'qr');
-  late QRViewController _qrViewController;
+  QRViewController? _qrViewController; // can be null on the web
   late Future<String> _address;
   final _textFormFieldController = TextEditingController();
   final _player = AudioPlayer();
@@ -56,9 +56,9 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   _pauseScan() async {
-    await _qrViewController.pauseCamera().then((_) =>
+    await _qrViewController?.pauseCamera().then((_) =>
         Future.delayed(Duration(milliseconds: 1500))
-            .then((value) => _qrViewController.resumeCamera()));
+            .then((value) => _qrViewController?.resumeCamera()));
   }
 
   bool isValidTzAddress(String? str) {
@@ -75,7 +75,7 @@ class _AddressScreenState extends State<AddressScreen> {
 
   @override
   void dispose() {
-    _qrViewController.dispose();
+    _qrViewController?.dispose();
     _player.dispose();
     super.dispose();
   }

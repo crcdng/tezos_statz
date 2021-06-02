@@ -53,12 +53,10 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 - address: UI flow Text entry
 - address: UI flow QR scan
 - address: QR scan sound
+- fix late initialization and setState after dispose
 
 ## TODO
 
-- fix The following LateError was thrown while finalizing the widget tree:
-LateInitializationError: Field '_qrViewController' has not been initialized.
-  
 - improve the color scheme
 - improve error handling 
 - add .tez domain feature 

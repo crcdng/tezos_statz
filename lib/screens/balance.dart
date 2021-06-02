@@ -46,6 +46,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
     });
     var tickerResponse = await http
         .get(Uri.https(constants.apiDomain, constants.apiPathTickers));
+    if (!mounted) return;
     setState(() {
       _amountTz = parseAmount(balanceResponse).toString() + " Tz";
       _amountUsd =
