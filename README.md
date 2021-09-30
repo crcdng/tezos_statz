@@ -19,9 +19,22 @@ https://flutter.dev/docs/get-started/install
 Run in the browser:
 `flutter run -d chrome`
 
-Run on a mobile device:
+To deploy on a mobile device, run:
+
 ```
 flutter create .
+```
+
+Before deploying to iOS, you need to edit `iOS/Runner/Info.plist` and add the following key:
+
+```
+	<key>NSCameraUsageDescription</key>
+	<string>This app uses the camera to scan QR codes of Tezos addresses.</string>
+```
+
+Then run:
+
+```
 flutter run -d <your Android device>
 flutter run -d <your iOS device>
 ```
