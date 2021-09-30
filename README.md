@@ -28,8 +28,8 @@ flutter create .
 Before deploying to iOS, you need to edit `iOS/Runner/Info.plist` and add the following key:
 
 ```
-	<key>NSCameraUsageDescription</key>
-	<string>This app uses the camera to scan QR codes of Tezos addresses.</string>
+<key>NSCameraUsageDescription</key>
+<string>This app uses the camera to scan QR codes of Tezos addresses.</string>
 ```
 
 Then run:
