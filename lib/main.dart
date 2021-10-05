@@ -56,13 +56,14 @@ class _TzStatzAppState extends State<TzStatzApp> {
       theme: ThemeData.dark().copyWith(
         primaryColor: Color.fromRGBO(4, 5, 46, 1.0),
         canvasColor: Color.fromRGBO(4, 5, 46, 1.0),
-        scaffoldBackgroundColor: Color.fromRGBO(4, 5, 46, 1.0),
       ),
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-              title: Text(_titles.elementAt(_screenIndex)),
-              shadowColor: Colors.deepOrange),
+            title: Text(_titles.elementAt(_screenIndex)),
+            shadowColor: Colors.deepOrange,
+            backgroundColor: Color.fromRGBO(46, 46, 46, 1.0),
+          ),
           body: PageTransitionSwitcher(
               duration: Duration(milliseconds: 625),
               transitionBuilder: (Widget child, Animation<double> animation,

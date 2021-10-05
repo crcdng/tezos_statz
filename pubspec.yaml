@@ -10,12 +10,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  animations: ^2.0.0
-  cupertino_icons: ^1.0.2
-  http: ^0.13.3
+  animations: ^2.0.1
+  cupertino_icons: ^1.0.3
+  http: ^0.13.4
   just_audio: ^0.9.12
   qr_code_scanner: ^0.5.2
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.8
   url_launcher: ^6.0.3
 
 dev_dependencies:

@@ -20,7 +20,7 @@ class _TransfersScreenState extends State<TransfersScreen> {
   @override
   void initState() {
     super.initState();
-    retrieveAddress().then((value) {
+    retrieveCurrentAddress().then((value) {
       _tzadress = value;
       _fetchTransactions(value);
     });

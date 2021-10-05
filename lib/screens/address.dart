@@ -18,6 +18,8 @@ class _AddressScreenState extends State<AddressScreen> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'qr');
   QRViewController? _qrViewController; // can be null on the web
   late Future<String> _address;
+  late Future<List<String>> _addressBook;
+
   final _textFormFieldController = TextEditingController();
   final _player = AudioPlayer();
 
@@ -32,7 +34,8 @@ class _AddressScreenState extends State<AddressScreen> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Tz address stored')));
         setState(() {
-          _address = storeAddress(address);
+          _address = storeCurrentAddress(address);
+          _addressBook = storeInAddressBook(_address);
         });
       }
     });
@@ -43,16 +46,45 @@ class _AddressScreenState extends State<AddressScreen> {
     if (form.validate()) {
       final address = field;
       setState(() {
-        _address = storeAddress(address);
+        _address = storeCurrentAddress(address);
+        _addressBook = storeInAddressBook(_address);
       });
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Tz address stored')));
       _textFormFieldController.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.deepOrange,
           content: Text('Please enter a valid Tezos address')));
     }
+  }
+
+  Future<void> _scanQRCodeDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Scan QR Code'),
+          content: SizedBox(
+            width: 150,
+            height: 150,
+            child: QRView(
+              key: _qrKey,
+              onQRViewCreated: _onQRViewCreated,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Done'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   _pauseScan() async {
@@ -70,7 +102,8 @@ class _AddressScreenState extends State<AddressScreen> {
   @override
   void initState() {
     super.initState();
-    _address = retrieveAddress();
+    _address = retrieveCurrentAddress();
+    _addressBook = retrieveAddressBook();
   }
 
   @override
@@ -98,18 +131,18 @@ class _AddressScreenState extends State<AddressScreen> {
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 16),
                           ),
-                          Container(height: 17.0),
+                          Container(height: 16.0),
                           CopyableAddress(snapshot.data),
                         ],
                       );
               }),
-          Container(height: 34.0),
+          Container(height: 19.0),
           Text(
             'Enter a Tz address',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),
-          Container(height: 17.0),
+          Container(height: 19.0),
           SizedBox(
             width: 300,
             child: Padding(
@@ -136,25 +169,93 @@ class _AddressScreenState extends State<AddressScreen> {
               ),
             ),
           ),
-          Container(height: 17.0),
+          Container(height: 19.0),
           kIsWeb
               ? Container()
-              : Column(children: [
-                  Text(
-                    ' or scan a Tz address or TzStats URL.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Container(height: 17.0),
-                  SizedBox(
-                    width: 150,
-                    height: 150,
-                    child: QRView(
-                      key: _qrKey,
-                      onQRViewCreated: _onQRViewCreated,
+              : Column(
+                  children: [
+                    Text(
+                      'Scan a Tz address or TzStats URL',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ),
-                ]),
+                    Container(height: 19.0),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.deepOrange,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                        ),
+                      ),
+                      child: Text(
+                        'Scan QR Code',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      onPressed: () {
+                        //The user picked true.
+                        _scanQRCodeDialog();
+                      },
+                    ),
+                    Container(height: 19.0),
+                    Text(
+                      'Select an address from the address book',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Container(height: 19.0),
+                    FutureBuilder(
+                        future: _addressBook,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> snapshot) {
+                          return !snapshot.hasData
+                              ? Container()
+                              : Column(
+                                  children: [
+                                    for (var entry in snapshot.data)
+                                      ListTile(
+                                        leading: const Icon(Icons.code),
+                                        title: Text(
+                                          entry.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                        trailing: GestureDetector(
+                                          behavior: HitTestBehavior.translucent,
+                                          onTap: () {
+                                            setState(() {
+                                              _addressBook =
+                                                  removeFromAddressBook(
+                                                      entry.toString());
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 48,
+                                            height: 48,
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            alignment: Alignment.center,
+                                            child: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            _address = storeCurrentAddress(
+                                                entry.toString());
+                                          });
+                                        },
+                                      ),
+                                    Container(height: 16.0),
+                                  ],
+                                );
+                        }),
+                  ],
+                ),
         ],
       ),
     );

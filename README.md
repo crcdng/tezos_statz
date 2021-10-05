@@ -67,7 +67,8 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 - address: UI flow QR scan
 - address: QR scan sound
 - fix late initialization and setState after dispose
-
+- implement an address book with known addresses
+- 
 ## TODO
 
 - improve the color scheme
@@ -76,4 +77,4 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 - load more transactions when paginate limit (100) is reached while scrolling down
 - add statistics (view) 
 - add detail view for transactions
-- implement an address book with known addresses 
+

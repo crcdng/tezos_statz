@@ -40,7 +40,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
   }
 
   updateBalance() async {
-    var balanceResponse = await retrieveAddress().then((value) {
+    var balanceResponse = await retrieveCurrentAddress().then((value) {
       return http.get(
           Uri.https(constants.apiDomain, constants.apiPathAccount + value));
     });
