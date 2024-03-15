@@ -4,27 +4,31 @@
 
 A demonstration app written in [Flutter](https://flutter.dev/) that allows to view [Tezos](https://tezos.com/) blockchain data (balance and list of transactions). On Android and iOS it includes a QR code scanner to scan the Tezos address. 
 
-Tezos Statz Demo calls the TzPro REST API provided by https://blockwatch.cc/
+Tezos Statz Demo calls the TzPro REST API provided by Blockwatch https://blockwatch.cc/.
 
-This API is documented here: https://docs.tzpro.io/
+The TzPro API is documented here: https://docs.tzpro.io/. It requires an API key from Blockwatch that you can get for free here: https://tzpro.io/. 
 
 The code is published under the Apache license. Not affiliated with Blockwatch or Tezos. 
 
 ## How to run
 
-This repository contains the source code but you have to build the app yourself. Get Flutter here https://flutter.dev/docs/get-started/install. Clone this repository and run `flutter create .` or add the target platforms (Web, iOS, Android, Mac) in VSCode. 
+This repository contains only the source code. You have to build the app yourself. Get Flutter here https://flutter.dev/docs/get-started/install. Clone this repository and run `flutter create .` or add the target platforms (e.g. Web, iOS, Android, Mac) in your code editor. 
 
-Before deploying to iOS, you need to edit `iOS/Runner/Info.plist` and add the following key:
+The API key is provided to the app via a configuration file. Ibn the root folder create a file called `api_keys.json`. 
+
+```
+{
+  "TZPRO_KEY": "<YOUR_API_KEY_HERE>"
+}
+```
+
+It is important not to check this file into version control. More info about storing API keys in Flutter, obfuscation and other issues: https://codewithandrea.com/articles/flutter-api-keys-dart-define-env-files/
+
+If you deploy to iOS, you need to edit `iOS/Runner/Info.plist` and add the following key for the QR Code scanner to work:
 
 ```
 <key>NSCameraUsageDescription</key>
 <string>This app uses the camera to scan QR codes of Tezos addresses.</string>
-```
-
-Then run:
-
-```
-flutter run -d <your device or emulator>
 ```
 
 ## Support development
@@ -34,12 +38,10 @@ tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk
 
 ## 3rd party contributions
 
-See `pubspec.yaml` for Flutter package authors    
 Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)    
 
 ## TODO
 
-- update Flutter and dependencies
 - replace outdated TzStats API with TzPro API
 
 - overhaul architecture
@@ -53,6 +55,8 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 - add detail view for transactions
 
 ## DONE
+
+Version 1.0
 
 - create a minimal implementation, model-free (just functions) 🤯
 - pull to refresh
@@ -72,5 +76,8 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 - fix late initialization and setState after dispose
 - implement an address book with known addresses
 
+Version 1.1
+
+- update Flutter and dependencies
 
 

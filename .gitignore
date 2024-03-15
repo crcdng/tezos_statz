@@ -45,7 +45,11 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# ignore platform directories
 android/**
 ios/**
 macos/**
 web/**
+
+# ignore the API key file
+api_keys.json
