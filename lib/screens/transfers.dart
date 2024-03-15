@@ -31,7 +31,13 @@ class _TransfersScreenState extends State<TransfersScreen> {
     final path =
         constants.apiPathAccount + address + constants.apiTransactionsPostfix;
     final parameters = constants.apiTransactionsParameters;
-    var result = await http.get(Uri.https(domain, path, parameters));
+    const apiKey = String.fromEnvironment('TZPRO_KEY');
+    if (apiKey.isEmpty) {
+      throw AssertionError('API KEY is not retrievable');
+    }
+
+    var result = await http.get(Uri.https(domain, path, parameters),
+        headers: {"X-API-Key": apiKey});
 
     if (result.statusCode == 200) {
       setState(() {

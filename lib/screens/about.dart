@@ -22,18 +22,9 @@ class _AboutScreenState extends State<AboutScreen> {
             text:
                 TextSpan(style: DefaultTextStyle.of(context).style, children: [
               TextSpan(
-                style: TextStyle(fontSize: 17.0),
-                text:
-                    "This is a demo app that allows you to view Tezos account data from ",
-              ),
-              TextSpan(
-                style: TextStyle(fontSize: 17.0, color: Colors.blue),
-                text: "TzStats",
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launchUrl(constants.tzstatsUri);
-                  },
-              ),
+                  style: TextStyle(fontSize: 17.0),
+                  text:
+                      "This is a demo app that allows you to view Tezos account data."),
               TextSpan(
                 style: TextStyle(fontSize: 17.0),
                 text:

@@ -22,7 +22,14 @@ flutter run --dart-define TZPRO_KEY=<YOUR_API_KEY>
 
 More info about handling API keys in Flutter, obfuscation and other issues: https://codewithandrea.com/articles/flutter-api-keys-dart-define-env-files/ as well as https://docs.tzpro.io/intro/access for securing API keys in general. Make sure you understand the implications of API key management, especially if you are not on the free API tier.
 
-If you deploy to iOS, you also need to edit `iOS/Runner/Info.plist` and add the following key for the QR Code scanner to work:
+If you deploy to macOS, you need to edit both `macos/Runner/DebugProfile.entitlements` and ` macos/Runner/Release.entitlements` and add the following key:
+
+```
+<key>com.apple.security.network.client</key>
+<true/>
+```
+
+If you deploy to iOS, you need to edit `iOS/Runner/Info.plist` and add the following key for the QR Code scanner to work:
 
 ```
 <key>NSCameraUsageDescription</key>

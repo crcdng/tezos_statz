@@ -50,6 +50,3 @@ android/**
 ios/**
 macos/**
 web/**
-
-# ignore the API key file
-api_keys.json
