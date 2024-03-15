@@ -2,28 +2,17 @@
 
 ![](docs/ui.png)
 
-A small WIP demonstration app written in [Flutter](https://flutter.dev/) that allows to view [Tezos](https://tezos.com/) blockchain data.
-On Android / iOS it includes a QR code scanner to scan the Tezos address. The web version doesn't have this feature.
+A demonstration app written in [Flutter](https://flutter.dev/) that allows to view [Tezos](https://tezos.com/) blockchain data (balance and list of transactions). On Android and iOS it includes a QR code scanner to scan the Tezos address. 
 
-Tezos Statz Demo calls the TzStats REST API provided by https://blockwatch.cc/
+Tezos Statz Demo calls the TzPro REST API provided by https://blockwatch.cc/
 
-The API is documented here: https://tzstats.com/docs/api
+This API is documented here: https://docs.tzpro.io/
 
-The code is published under the Apache license. Not affiliated with TzStats. 
+The code is published under the Apache license. Not affiliated with Blockwatch or Tezos. 
 
 ## How to run
 
-Get Flutter:
-https://flutter.dev/docs/get-started/install
-
-Run in the browser:
-`flutter run -d chrome`
-
-To deploy on a mobile device, run:
-
-```
-flutter create .
-```
+This repository contains the source code but you have to build the app yourself. Get Flutter here https://flutter.dev/docs/get-started/install. Clone this repository and run `flutter create .` or add the target platforms (Web, iOS, Android, Mac) in VSCode. 
 
 Before deploying to iOS, you need to edit `iOS/Runner/Info.plist` and add the following key:
 
@@ -35,8 +24,7 @@ Before deploying to iOS, you need to edit `iOS/Runner/Info.plist` and add the fo
 Then run:
 
 ```
-flutter run -d <your Android device>
-flutter run -d <your iOS device>
+flutter run -d <your device or emulator>
 ```
 
 ## Support development
@@ -49,7 +37,22 @@ tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk
 See `pubspec.yaml` for Flutter package authors    
 Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)    
 
-## Progress
+## TODO
+
+- update Flutter and dependencies
+- replace outdated TzStats API with TzPro API
+
+- overhaul architecture
+- add tests
+
+- improve the color scheme
+- improve error handling 
+- add .tez domain feature 
+- load more transactions when paginate limit (100) is reached while scrolling down
+- add statistics (view) 
+- add detail view for transactions
+
+## DONE
 
 - create a minimal implementation, model-free (just functions) 🤯
 - pull to refresh
@@ -68,13 +71,6 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 - address: QR scan sound
 - fix late initialization and setState after dispose
 - implement an address book with known addresses
-- 
-## TODO
 
-- improve the color scheme
-- improve error handling 
-- add .tez domain feature 
-- load more transactions when paginate limit (100) is reached while scrolling down
-- add statistics (view) 
-- add detail view for transactions
+
 

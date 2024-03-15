@@ -2,10 +2,10 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tzstatz/screens/about.dart';
-import 'package:tzstatz/screens/address.dart';
-import 'package:tzstatz/screens/balance.dart';
-import 'package:tzstatz/screens/transfers.dart';
+import 'package:tezos_statz/screens/about.dart';
+import 'package:tezos_statz/screens/address.dart';
+import 'package:tezos_statz/screens/balance.dart';
+import 'package:tezos_statz/screens/transfers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

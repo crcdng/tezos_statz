@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:tzstatz/model/address.dart';
-import 'package:tzstatz/utils/constants.dart' as constants;
-import 'package:tzstatz/widgets/copyable_address.dart';
+import 'package:tezos_statz/model/address.dart';
+import 'package:tezos_statz/utils/constants.dart' as constants;
+import 'package:tezos_statz/widgets/copyable_address.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({Key? key}) : super(key: key);
@@ -26,8 +26,8 @@ class _AddressScreenState extends State<AddressScreen> {
   void _onQRViewCreated(QRViewController controller) {
     this._qrViewController = controller;
     controller.scannedDataStream.listen((scanData) {
-      final address = scanData.code
-          .substring(scanData.code.length - constants.addressLength);
+      final address = scanData.code!
+          .substring(scanData.code!.length - constants.addressLength);
       if (isValidTzAddress(address)) {
         _player.setAsset("assets/blip.mp3").then((_) => _player.play());
         _pauseScan();

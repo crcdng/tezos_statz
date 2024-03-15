@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:tzstatz/model/address.dart';
-import 'package:tzstatz/utils/constants.dart' as constants;
+import 'package:tezos_statz/model/address.dart';
+import 'package:tezos_statz/utils/constants.dart' as constants;
 
 import '../utils/utils.dart';
 

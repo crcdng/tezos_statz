@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:tzstatz/utils/constants.dart' as constants;
-import 'package:tzstatz/widgets/copyable_address.dart';
+import 'package:tezos_statz/utils/constants.dart' as constants;
+import 'package:tezos_statz/widgets/copyable_address.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -31,13 +31,13 @@ class _AboutScreenState extends State<AboutScreen> {
                 text: "TzStats",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launch(constants.tzstatsUri);
+                    launchUrl(constants.tzstatsUri);
                   },
               ),
               TextSpan(
                 style: TextStyle(fontSize: 17.0),
                 text:
-                    ". It uses the free version of the TzStats API. Not affiliated with TzStats.",
+                    ". It uses the Blockwatch TzPro API. Not affiliated with Blockwatch.",
               ),
               TextSpan(
                 style: TextStyle(fontSize: 17.0),
@@ -48,7 +48,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 text: "Flutter",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launch(constants.flutterUri);
+                    launchUrl(constants.flutterUri);
                   },
               ),
             ]),
@@ -57,7 +57,7 @@ class _AboutScreenState extends State<AboutScreen> {
           GestureDetector(
             child: FlutterLogo(),
             onTap: () {
-              launch(constants.flutterUri);
+              launchUrl(constants.flutterUri);
             },
           ),
           Container(height: 17.0),
@@ -73,7 +73,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 text: "Github",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launch(constants.githubUri);
+                    launchUrl(constants.githubUri);
                   },
               ),
               TextSpan(
@@ -98,7 +98,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 text: "@crcdng",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launch(constants.crcdngUri);
+                    launchUrl(constants.crcdngUri);
                   },
               ),
             ]),
