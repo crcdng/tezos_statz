@@ -27,9 +27,11 @@ class _BalanceScreenState extends State<BalanceScreen> {
         .decode(data.body)
         .where((element) => element["quote"] == "USD")
         .toList();
+
     double average =
         quotes.fold(0.0, (value, element) => value + element["last"]) /
             quotes.length;
+
     return average;
   }
 
@@ -45,7 +47,11 @@ class _BalanceScreenState extends State<BalanceScreen> {
       throw AssertionError('API KEY is not retrievable');
     }
 
+    print(apiKey);
     var balanceResponse = await retrieveCurrentAddress().then((value) {
+      print(Uri.https(constants.apiDomain, constants.apiPathAccount + value)
+          .toString());
+
       return http.get(
           Uri.https(constants.apiDomain, constants.apiPathAccount + value),
           headers: {"X-API-Key": apiKey});
@@ -55,11 +61,14 @@ class _BalanceScreenState extends State<BalanceScreen> {
         headers: {"X-API-Key": apiKey});
     if (!mounted) return;
     setState(() {
+      print(balanceResponse.body.toString());
       _amountTz = parseAmount(balanceResponse).toString() + " Tz";
-      _amountUsd =
-          (parseAmount(balanceResponse) * parseUSDQuote(tickerResponse))
-                  .toStringAsFixed(2) +
-              " USD";
+      _amountUsd = "0 USD";
+      // TODO
+      // _amountUsd =
+      //     (parseAmount(balanceResponse) * parseUSDQuote(tickerResponse))
+      //             .toStringAsFixed(2) +
+      //         " USD";
     });
   }
 
