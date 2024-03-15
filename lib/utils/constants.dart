@@ -20,6 +20,6 @@ final apiTickersField = "last";
 final donationAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
 
 final tzstatsUri = Uri.https("https://tzpro.io/");
-final githubUri = Uri.https("https://github.com/i3games/imperfect-vr/");
+final githubUri = Uri.https("https://github.com/crcdng/tezos_statz");
 final crcdngUri = Uri.https("https://twitter.com/crcdng/");
 final flutterUri = Uri.https("https://flutter.dev/");

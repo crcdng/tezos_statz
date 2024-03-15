@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -16,7 +18,8 @@ class AddressScreen extends StatefulWidget {
 class _AddressScreenState extends State<AddressScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'qr');
-  QRViewController? _qrViewController; // can be null on the web
+  QRViewController?
+      _qrViewController; // null on other platforms than iOS / Android
   late Future<String> _address;
   late Future<List<String>> _addressBook;
 
@@ -170,7 +173,7 @@ class _AddressScreenState extends State<AddressScreen> {
             ),
           ),
           Container(height: 19.0),
-          kIsWeb
+          (kIsWeb || (!Platform.isAndroid && !Platform.isIOS))
               ? Container()
               : Column(
                   children: [
