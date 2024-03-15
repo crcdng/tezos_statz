@@ -24,11 +24,11 @@ class _AboutScreenState extends State<AboutScreen> {
               TextSpan(
                   style: TextStyle(fontSize: 17.0),
                   text:
-                      "This is a demo app that allows you to view Tezos account data."),
+                      "This is a demo app that allows you to view Tezos account data. "),
               TextSpan(
                 style: TextStyle(fontSize: 17.0),
                 text:
-                    ". It uses the Blockwatch TzPro API. Not affiliated with Blockwatch.",
+                    "It uses the Blockwatch TzPro API. Not affiliated with Blockwatch.",
               ),
               TextSpan(
                 style: TextStyle(fontSize: 17.0),
@@ -87,10 +87,6 @@ class _AboutScreenState extends State<AboutScreen> {
               TextSpan(
                 style: TextStyle(fontSize: 17.0, color: Colors.purple),
                 text: "@crcdng",
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    launchUrl(constants.crcdngUri);
-                  },
               ),
             ]),
           ),

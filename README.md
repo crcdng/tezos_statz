@@ -29,6 +29,16 @@ If you deploy to macOS, you need to edit both `macos/Runner/DebugProfile.entitle
 <true/>
 ```
 
+If you deploy to Android, you need to edit `AndroidManifest.xml` as shown:
+
+```
+<manifest xmlns:android...>
+ ...
+ <uses-permission android:name="android.permission.INTERNET" />
+ <application ...
+</manifest>
+```
+
 If you deploy to iOS, you need to edit `iOS/Runner/Info.plist` and add the following key for the QR Code scanner to work:
 
 ```
@@ -44,6 +54,10 @@ tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk
 ## 3rd party contributions
 
 Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)    
+
+## STATUS
+
+**Not working** at the moment due to deprecated TzStats API
 
 ## TODO
 
@@ -79,7 +93,6 @@ Version 1.0
 - address: UI flow QR Code scan
 - address: QR scan sound
 - fix late initialization and setState after dispose
-- implement an address book with known addresses
 
 Version 1.1
 
