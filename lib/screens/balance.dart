@@ -40,12 +40,19 @@ class _BalanceScreenState extends State<BalanceScreen> {
   }
 
   updateBalance() async {
+    const apiKey = String.fromEnvironment('TZPRO_KEY');
+    if (apiKey.isEmpty) {
+      throw AssertionError('API KEY is not retrievable');
+    }
+
     var balanceResponse = await retrieveCurrentAddress().then((value) {
       return http.get(
-          Uri.https(constants.apiDomain, constants.apiPathAccount + value));
+          Uri.https(constants.apiDomain, constants.apiPathAccount + value),
+          headers: {"X-API-Key": apiKey});
     });
-    var tickerResponse = await http
-        .get(Uri.https(constants.apiDomain, constants.apiPathTickers));
+    var tickerResponse = await http.get(
+        Uri.https(constants.apiDomain, constants.apiPathTickers),
+        headers: {"X-API-Key": apiKey});
     if (!mounted) return;
     setState(() {
       _amountTz = parseAmount(balanceResponse).toString() + " Tz";

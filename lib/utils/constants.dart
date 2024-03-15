@@ -1,8 +1,7 @@
 final int addressLength = 36;
 final String addressPrefix = "tz";
 
-final siteDomain = "tzstats.com";
-final apiDomain = "api.tzstats.com";
+final apiDomain = "api.tzpro.io";
 final apiPathAccount = "/explorer/account/";
 final apiBalanceKey = "total_balance";
 
@@ -23,3 +22,7 @@ final tzstatsUri = Uri.https("https://tzpro.io/");
 final githubUri = Uri.https("https://github.com/crcdng/tezos_statz");
 final crcdngUri = Uri.https("https://twitter.com/crcdng/");
 final flutterUri = Uri.https("https://flutter.dev/");
+
+// provided via api_keys.json (see Readme)
+// .vscode/launch.json contains the run args
+const tzproApiKey = String.fromEnvironment('TZPRO_KEY');

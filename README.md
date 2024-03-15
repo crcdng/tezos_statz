@@ -4,7 +4,7 @@
 
 A demonstration app written in [Flutter](https://flutter.dev/) that allows to view [Tezos](https://tezos.com/) blockchain data (balance and list of transactions). On Android and iOS it includes a QR code scanner to scan the Tezos address. 
 
-Tezos Statz Demo calls the TzPro REST API provided by Blockwatch https://blockwatch.cc/.
+Tezos Statz Demo calls the TzPro REST API (formerly TzStats) provided by Blockwatch https://blockwatch.cc/.
 
 The TzPro API is documented here: https://docs.tzpro.io/. It requires an API key from Blockwatch that you can get for free here: https://tzpro.io/. 
 
@@ -14,17 +14,15 @@ The code is published under the Apache license. Not affiliated with Blockwatch o
 
 This repository contains only the source code. You have to build the app yourself. Get Flutter here https://flutter.dev/docs/get-started/install. Clone this repository and run `flutter create .` or add the target platforms (e.g. Web, iOS, Android, Mac) in your code editor. 
 
-The API key is provided to the app via a configuration file. Ibn the root folder create a file called `api_keys.json`. 
+The API key is provided via an environment variable. Run your app with:
 
 ```
-{
-  "TZPRO_KEY": "<YOUR_API_KEY_HERE>"
-}
+flutter run --dart-define TZPRO_KEY=<YOUR_API_KEY>
 ```
 
-It is important not to check this file into version control. More info about storing API keys in Flutter, obfuscation and other issues: https://codewithandrea.com/articles/flutter-api-keys-dart-define-env-files/
+More info about handling API keys in Flutter, obfuscation and other issues: https://codewithandrea.com/articles/flutter-api-keys-dart-define-env-files/ as well as https://docs.tzpro.io/intro/access for securing API keys in general. Make sure you understand the implications of API key management, especially if you are not on the free API tier.
 
-If you deploy to iOS, you need to edit `iOS/Runner/Info.plist` and add the following key for the QR Code scanner to work:
+If you deploy to iOS, you also need to edit `iOS/Runner/Info.plist` and add the following key for the QR Code scanner to work:
 
 ```
 <key>NSCameraUsageDescription</key>
@@ -42,14 +40,14 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 
 ## TODO
 
-- replace outdated TzStats API with TzPro API
+- replace deprecated TzStats API with TzPro API
 
 - overhaul architecture
+- better error handling
 - add tests
 
-- improve the color scheme
-- improve error handling 
-- add .tez domain feature 
+- improve / expand the color theme
+- add .tez domain support 
 - load more transactions when paginate limit (100) is reached while scrolling down
 - add statistics (view) 
 - add detail view for transactions
@@ -62,7 +60,7 @@ Version 1.0
 - pull to refresh
 - tap to copy donation address  
 - balance: show balance in Tz and USD
-- make workable Web version (without QRcode scanner)
+- make workable Web version (without QR Code scanner)
 - store address in Shared Preferences
 - animate screen change
 - address: show current address
@@ -71,7 +69,7 @@ Version 1.0
 - animate USD / Tz switch
 - fixed transaction type filter
 - address: UI flow Text entry
-- address: UI flow QR scan
+- address: UI flow QR Code scan
 - address: QR scan sound
 - fix late initialization and setState after dispose
 - implement an address book with known addresses
