@@ -6,9 +6,11 @@ A demonstration app written in [Flutter](https://flutter.dev/) that allows to vi
 
 Tezos Statz Demo calls the TzPro REST API (formerly TzStats) provided by Blockwatch https://blockwatch.cc/.
 
-The TzPro API is documented here: https://docs.tzpro.io/. It requires an API key from Blockwatch that you can get for free here: https://tzpro.io/. 
+The TzPro API is documented here: https://docs.tzpro.io/. It requires an API key from Blockwatch that you can get for free here: https://tzpro.io/. When you generate the key, klick the "Edit" button and look for a field called "HMAC Secret". Delete the contents of that field and click "Save".
 
-The code is published under the Apache license. Not affiliated with Blockwatch or Tezos. 
+![](docs/hmac.png)
+
+Then 
 
 ## How to run
 
@@ -57,11 +59,9 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 
 ## STATUS
 
-**Not working** at the moment due to deprecated TzStats API
+**Working** the app is working again with the new TzPro API
 
 ## TODO
-
-- replace deprecated TzStats API with TzPro API
 
 - overhaul architecture
 - better error handling
@@ -97,5 +97,7 @@ Version 1.0
 Version 1.1
 
 - update Flutter and dependencies
+- replace deprecated TzStats API with TzPro API
 
 
+This code is published under the Apache license. It is not affiliated with Blockwatch or Tezos. 

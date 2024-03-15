@@ -3,7 +3,7 @@ final String addressPrefix = "tz";
 
 final apiDomain = "api.tzpro.io";
 final apiPathAccount = "/explorer/account/";
-final apiBalanceKey = "total_balance";
+final apiBalanceKey = "spendable_balance";
 
 final apiTransactionsPostfix = "/operations";
 final apiTransactionsParameters = {

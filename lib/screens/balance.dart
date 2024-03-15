@@ -63,12 +63,10 @@ class _BalanceScreenState extends State<BalanceScreen> {
     setState(() {
       print(balanceResponse.body.toString());
       _amountTz = parseAmount(balanceResponse).toString() + " Tz";
-      _amountUsd = "0 USD";
-      // TODO
-      // _amountUsd =
-      //     (parseAmount(balanceResponse) * parseUSDQuote(tickerResponse))
-      //             .toStringAsFixed(2) +
-      //         " USD";
+      _amountUsd =
+          (parseAmount(balanceResponse) * parseUSDQuote(tickerResponse))
+                  .toStringAsFixed(2) +
+              " USD";
     });
   }
 

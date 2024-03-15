@@ -61,8 +61,9 @@ class _TransfersScreenState extends State<TransfersScreen> {
               itemBuilder: (BuildContext context, int index) {
                 var sender = _transactions[index]["sender"] as String;
                 var receiver = _transactions[index]["receiver"] as String;
-                var volume = _transactions[index]["volume"].toDouble()
-                    as double; // an integer number such as 1 from JSON is interpreted as int
+                var volume = _transactions[index]["volume"] != null
+                    ? _transactions[index]["volume"].toDouble() as double
+                    : 0.0; // an integer number such as 1 from JSON is interpreted as int
                 var time = _transactions[index]["time"] as String;
                 var isExpense = sender == _tzadress;
                 return ListTile(
