@@ -10,9 +10,7 @@ The TzPro API is documented here: https://docs.tzpro.io/. It requires an API key
 
 ![](docs/hmac.png)
 
-Then 
-
-## How to run
+## How to run the code
 
 This repository contains only the source code. You have to build the app yourself. Get Flutter here https://flutter.dev/docs/get-started/install. Clone this repository and run `flutter create .` or add the target platforms (e.g. Web, iOS, Android, Mac) in your code editor. 
 
@@ -62,6 +60,8 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 **Working** the app is working again with the new TzPro API
 
 ## TODO
+
+- fix bugs in "About" page links
 
 - overhaul architecture
 - better error handling
