@@ -17,10 +17,12 @@ dependencies:
   qr_code_scanner: ^1.0.1
   shared_preferences: ^2.2.2
   url_launcher: ^6.2.5
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.3
 
 flutter:
   uses-material-design: true

@@ -1,18 +1,27 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tezos_statz/screens/about.dart';
-import 'package:tezos_statz/screens/address.dart';
-import 'package:tezos_statz/screens/balance.dart';
-import 'package:tezos_statz/screens/transfers.dart';
+import 'model/transactions.dart';
+import 'screens/about.dart';
+import 'screens/address.dart';
+import 'screens/balance.dart';
+import 'screens/transactions.dart';
+import 'utils/constants.dart' as constants;
+import 'data/storage.dart';
+import 'data/tezos_api.dart';
+import 'model/balance.dart';
+import 'model/address.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+
+  /// TODO
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final startScreenIndex = prefs.containsKey("tzaddress") ? 1 : 0;
+  final startScreenIndex = prefs.containsKey(constants.storageKey) ? 1 : 0;
   runApp(TzStatzApp(startScreenIndex));
 }
 
@@ -50,57 +59,65 @@ class _TzStatzAppState extends State<TzStatzApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TzStatz',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Color.fromRGBO(4, 5, 46, 1.0),
-        canvasColor: Color.fromRGBO(4, 5, 46, 1.0),
-      ),
-      home: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(_titles.elementAt(_screenIndex)),
-            shadowColor: Colors.deepOrange,
-            backgroundColor: Color.fromRGBO(46, 46, 46, 1.0),
-          ),
-          body: PageTransitionSwitcher(
-              duration: Duration(milliseconds: 625),
-              transitionBuilder: (Widget child, Animation<double> animation,
-                  Animation<double> secondaryAnimation) {
-                return FadeThroughTransition(
-                    animation: animation,
-                    secondaryAnimation: secondaryAnimation,
-                    child: child);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) => Address(Storage(key: constants.storageKey))),
+        ChangeNotifierProvider(create: (context) => Balance(TezosApi())),
+        ChangeNotifierProvider(create: (context) => Transactions(TezosApi())),
+      ],
+      child: MaterialApp(
+        title: 'TzStatz',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark().copyWith(
+          primaryColor: Color.fromRGBO(4, 5, 46, 1.0),
+          canvasColor: Color.fromRGBO(4, 5, 46, 1.0),
+        ),
+        home: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(_titles.elementAt(_screenIndex)),
+              shadowColor: Colors.deepOrange,
+              backgroundColor: Color.fromRGBO(46, 46, 46, 1.0),
+            ),
+            body: PageTransitionSwitcher(
+                duration: Duration(milliseconds: 625),
+                transitionBuilder: (Widget child, Animation<double> animation,
+                    Animation<double> secondaryAnimation) {
+                  return FadeThroughTransition(
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      child: child);
+                },
+                child: _screens.elementAt(_screenIndex)),
+            bottomNavigationBar: BottomNavigationBar(
+              selectedItemColor: Colors.deepOrange,
+              unselectedItemColor: Color.fromRGBO(251, 255, 249, 1.0),
+              currentIndex: _screenIndex,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.code),
+                  label: 'Address',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.money),
+                  label: 'Balance',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.list),
+                  label: 'Transfers',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.info),
+                  label: 'About',
+                )
+              ],
+              onTap: (newIndex) {
+                setState(() {
+                  _screenIndex = newIndex;
+                });
               },
-              child: _screens.elementAt(_screenIndex)),
-          bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: Colors.deepOrange,
-            unselectedItemColor: Color.fromRGBO(251, 255, 249, 1.0),
-            currentIndex: _screenIndex,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.code),
-                label: 'Address',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.money),
-                label: 'Balance',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list),
-                label: 'Transfers',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.info),
-                label: 'About',
-              )
-            ],
-            onTap: (newIndex) {
-              setState(() {
-                _screenIndex = newIndex;
-              });
-            },
+            ),
           ),
         ),
       ),

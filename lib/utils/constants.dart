@@ -22,6 +22,7 @@ final tzstatsUri = Uri.https("tzpro.io/");
 final githubUri = Uri.https("github.com/crcdng/tezos_statz");
 final flutterUri = Uri.https("flutter.dev/");
 
-// provided via api_keys.json (see Readme)
-// .vscode/launch.json contains the run args
+final storageKey = "tzaddress";
+
+// provided via environment variable
 const tzproApiKey = String.fromEnvironment('TZPRO_KEY');

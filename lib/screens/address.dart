@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tezos_statz/model/address.dart';
 import 'package:tezos_statz/utils/constants.dart' as constants;
@@ -20,8 +21,6 @@ class _AddressScreenState extends State<AddressScreen> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'qr');
   QRViewController?
       _qrViewController; // null on other platforms than iOS / Android
-  late Future<String> _address;
-  late Future<List<String>> _addressBook;
 
   final _textFormFieldController = TextEditingController();
   final _player = AudioPlayer();
@@ -34,12 +33,9 @@ class _AddressScreenState extends State<AddressScreen> {
       if (isValidTzAddress(address)) {
         _player.setAsset("assets/blip.mp3").then((_) => _player.play());
         _pauseScan();
+        Provider.of<Address>(context, listen: false).store(address);
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Tz address stored')));
-        setState(() {
-          _address = storeCurrentAddress(address);
-          _addressBook = storeInAddressBook(_address);
-        });
       }
     });
   }
@@ -48,10 +44,7 @@ class _AddressScreenState extends State<AddressScreen> {
     final FormState form = _formKey.currentState!;
     if (form.validate()) {
       final address = field;
-      setState(() {
-        _address = storeCurrentAddress(address);
-        _addressBook = storeInAddressBook(_address);
-      });
+      Provider.of<Address>(context, listen: false).store(address);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Tz address stored')));
       _textFormFieldController.clear();
@@ -103,13 +96,6 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _address = retrieveCurrentAddress();
-    _addressBook = retrieveAddressBook();
-  }
-
-  @override
   void dispose() {
     _qrViewController?.dispose();
     _player.dispose();
@@ -122,23 +108,21 @@ class _AddressScreenState extends State<AddressScreen> {
       padding: EdgeInsets.all(16.0),
       child: ListView(
         children: <Widget>[
-          FutureBuilder(
-              future: _address,
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return snapshot.data == ''
-                    ? Container()
-                    : Column(
-                        children: [
-                          Text(
-                            'Currently stored Tz address:',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Container(height: 16.0),
-                          CopyableAddress(snapshot.data),
-                        ],
-                      );
-              }),
+          Consumer<Address>(builder: (context, address, child) {
+            return address == ''
+                ? Container()
+                : Column(
+                    children: [
+                      Text(
+                        'Currently stored Tz address:',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      Container(height: 16.0),
+                      CopyableAddress(address),
+                    ],
+                  );
+          }),
           Container(height: 19.0),
           Text(
             'Enter a Tz address',
@@ -208,55 +192,6 @@ class _AddressScreenState extends State<AddressScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16),
                     ),
-                    Container(height: 19.0),
-                    FutureBuilder(
-                        future: _addressBook,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> snapshot) {
-                          return !snapshot.hasData
-                              ? Container()
-                              : Column(
-                                  children: [
-                                    for (var entry in snapshot.data)
-                                      ListTile(
-                                        leading: const Icon(Icons.code),
-                                        title: Text(
-                                          entry.toString(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                        trailing: GestureDetector(
-                                          behavior: HitTestBehavior.translucent,
-                                          onTap: () {
-                                            setState(() {
-                                              _addressBook =
-                                                  removeFromAddressBook(
-                                                      entry.toString());
-                                            });
-                                          },
-                                          child: Container(
-                                            width: 48,
-                                            height: 48,
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0),
-                                            alignment: Alignment.center,
-                                            child: const Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          setState(() {
-                                            _address = storeCurrentAddress(
-                                                entry.toString());
-                                          });
-                                        },
-                                      ),
-                                    Container(height: 16.0),
-                                  ],
-                                );
-                        }),
                   ],
                 ),
         ],

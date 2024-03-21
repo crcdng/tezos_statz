@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:tezos_statz/model/address.dart';
 import 'package:tezos_statz/utils/constants.dart' as constants;
 
+import '../model/balance.dart';
 import '../utils/utils.dart';
 
 class BalanceScreen extends StatefulWidget {
@@ -19,66 +21,15 @@ class _BalanceScreenState extends State<BalanceScreen> {
   String _amountTz = "";
   String _amountUsd = "";
 
-  double parseAmount(data) =>
-      json.decode(data.body)[constants.apiBalanceKey] ?? 0.0;
-
-  double parseUSDQuote(data) {
-    var quotes = json
-        .decode(data.body)
-        .where((element) => element["quote"] == "USD")
-        .toList();
-
-    double average =
-        quotes.fold(0.0, (value, element) => value + element["last"]) /
-            quotes.length;
-
-    return average;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    updateBalance();
-  }
-
-  updateBalance() async {
-    const apiKey = String.fromEnvironment('TZPRO_KEY');
-    if (apiKey.isEmpty) {
-      throw AssertionError('API KEY is not retrievable');
-    }
-
-    print(apiKey);
-    var balanceResponse = await retrieveCurrentAddress().then((value) {
-      print(Uri.https(constants.apiDomain, constants.apiPathAccount + value)
-          .toString());
-
-      return http.get(
-          Uri.https(constants.apiDomain, constants.apiPathAccount + value),
-          headers: {"X-API-Key": apiKey});
-    });
-    var tickerResponse = await http.get(
-        Uri.https(constants.apiDomain, constants.apiPathTickers),
-        headers: {"X-API-Key": apiKey});
-    if (!mounted) return;
-    setState(() {
-      print(balanceResponse.body.toString());
-      _amountTz = parseAmount(balanceResponse).toString() + " Tz";
-      _amountUsd =
-          (parseAmount(balanceResponse) * parseUSDQuote(tickerResponse))
-                  .toStringAsFixed(2) +
-              " USD";
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
       child: RefreshIndicator(
         onRefresh: () async {
           await Future.delayed(Duration(seconds: 1)); // extra delay
-          setState(() {
-            updateBalance();
-          });
+          final address =
+              Provider.of<Address>(context, listen: false).retrieve();
+          Provider.of<Balance>(context, listen: false).retrieve(address);
         },
         child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
@@ -93,11 +44,15 @@ class _BalanceScreenState extends State<BalanceScreen> {
                           SizedBox(
                             height: 100.0,
                             child: AnimatedCrossFade(
-                              firstChild: Text(
-                                _amountTz,
-                                maxLines: 1,
-                                key: ValueKey(1),
-                                style: TextStyle(fontSize: 28.0),
+                              firstChild: Consumer<Balance>(
+                                builder: (context, amount, child) {
+                                  return Text(
+                                    amount.toString(),
+                                    maxLines: 1,
+                                    key: ValueKey(1),
+                                    style: TextStyle(fontSize: 28.0),
+                                  );
+                                },
                               ),
                               secondChild: Text(
                                 _amountUsd,
