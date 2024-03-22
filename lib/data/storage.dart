@@ -9,9 +9,8 @@ class Storage {
     return prefs.getString(key) ?? "";
   }
 
-  Future<String> storeItem(String item) async {
+  Future<void> storeItem(String item) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, item);
-    return item;
   }
 }

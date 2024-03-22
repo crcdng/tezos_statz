@@ -3,14 +3,19 @@ import '../data/storage.dart';
 
 class Address with ChangeNotifier {
   String value = "";
+  Storage storage;
 
-  Address(Storage storage);
-
-  retrieve() {
-    // TODO
-  }
+  Address(Storage this.storage);
 
   store(String address) {
-    // TODO
+    value = address;
+    notifyListeners();
+    storage.storeItem(address);
+  }
+
+  retrieve() async {
+    value = await storage.retrieveItem();
+    notifyListeners();
+    return value;
   }
 }
