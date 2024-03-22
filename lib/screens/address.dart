@@ -109,7 +109,7 @@ class _AddressScreenState extends State<AddressScreen> {
       child: ListView(
         children: <Widget>[
           Consumer<Address>(builder: (context, address, child) {
-            return address == ''
+            return address.value == ''
                 ? Container()
                 : Column(
                     children: [
@@ -119,7 +119,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         style: TextStyle(fontSize: 16),
                       ),
                       Container(height: 16.0),
-                      CopyableAddress(address),
+                      CopyableAddress(address.value),
                     ],
                   );
           }),

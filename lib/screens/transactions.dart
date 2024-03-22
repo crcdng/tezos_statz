@@ -22,18 +22,18 @@ class _TransfersScreenState extends State<TransfersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Transactions>(builder: (context, tns, child) {
+    return Consumer<Transactions>(builder: (context, transactions, child) {
       return ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-        itemCount: tns.transactions.length,
+        itemCount: transactions.items.length,
         itemBuilder: (BuildContext context, int index) {
-          var sender = tns.transactions[index]["sender"] as String;
-          var receiver = tns.transactions[index]["receiver"] as String;
-          var volume = tns.transactions[index]["volume"] != null
-              ? tns.transactions[index]["volume"].toDouble() as double
+          var sender = transactions.items[index]["sender"] as String;
+          var receiver = transactions.items[index]["receiver"] as String;
+          var volume = transactions.items[index]["volume"] != null
+              ? transactions.items[index]["volume"].toDouble() as double
               : 0.0; // an integer number such as 1 from JSON is interpreted as int
-          var time = tns.transactions[index]["time"] as String;
-          var isExpense = sender == _tzadress;
+          var time = transactions.items[index]["time"] as String;
+          var isExpense = (sender == _tzadress);
           return ListTile(
             visualDensity: VisualDensity.compact,
             leading: Icon(
