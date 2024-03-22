@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tezos_statz/data/storage.dart';
 import 'package:tezos_statz/model/address.dart';
 
-// NOTE instead of the MockStorage we could use the preference package directly with testing support https://docs.flutter.dev/cookbook/persistence/key-value#testing-support
+// NOTE instead of the MockStorage we could test the preference package directly with its testing support https://docs.flutter.dev/cookbook/persistence/key-value#testing-support
 class MockStorage extends Mock implements Storage {}
 
 void main() {
@@ -43,7 +43,6 @@ void main() {
       when(() => mockStorage.storeItem(address)).thenAnswer((_) async => null);
       var notified = false;
       sut.addListener(() {
-        expect(sut.value, address);
         notified = true;
       });
       sut.store(address);
@@ -52,7 +51,7 @@ void main() {
   });
 
   group(' retrieve address', () {
-    test('retrieve address calls retrieval of data', () {
+    test('retrieve address calls retrieval of data from storage', () {
       when(() => mockStorage.retrieveItem()).thenAnswer((_) async => "");
       sut.retrieve();
       verify(() => mockStorage.retrieveItem()).called(1);

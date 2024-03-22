@@ -1,10 +1,6 @@
 final int addressLength = 36;
 final String addressPrefix = "tz";
 
-final apiDomain = "api.tzpro.io";
-final apiPathAccount = "/explorer/account/";
-final apiBalanceKey = "spendable_balance";
-
 final apiTransactionsPostfix = "/operations";
 final apiTransactionsParameters = {
   "type": "transaction",
@@ -12,7 +8,6 @@ final apiTransactionsParameters = {
   "limit": "100"
 };
 
-final apiPathTickers = "/markets/tickers/";
 final apiTickersParameters = {"quote": "USD"};
 final apiTickersField = "last";
 

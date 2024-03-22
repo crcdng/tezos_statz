@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CopyableAddress extends StatelessWidget {
-  final donationAddress;
-  CopyableAddress(this.donationAddress, {Key? key}) : super(key: key);
+  final address;
+  CopyableAddress(this.address, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,10 @@ class CopyableAddress extends StatelessWidget {
           fontSize: 16.0,
           color: Colors.indigo,
           backgroundColor: Colors.white70),
-      text: donationAddress,
+      text: address,
       recognizer: TapGestureRecognizer()
         ..onTap = () {
-          Clipboard.setData(ClipboardData(text: donationAddress));
+          Clipboard.setData(ClipboardData(text: address));
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Address copied to clipboard')));
         },
