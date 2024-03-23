@@ -14,7 +14,7 @@ class TezosApi {
 
   double parseUSDQuote(data) {
     final quotes = json
-        .decode(data.body)
+        .decode(data)
         .where((element) => element["quote"] == "USD")
         .toList();
     final average =
@@ -52,40 +52,26 @@ class TezosApi {
         Uri.https("api.tzpro.io", "/markets/tickers/"),
         headers: {"X-API-Key": apiKey});
 
-    return parseAmount(balanceResponse) * parseUSDQuote(tickerResponse);
+    return parseAmount(balanceResponse.body) *
+        parseUSDQuote(tickerResponse.body);
   }
 
-  // var tickerResponse = await http.get(
-  //     Uri.https(constants.apiDomain, constants.apiPathTickers),
-  //     headers: {"X-API-Key": apiKey});
+  Future<List<Map<String, dynamic>>> retrieveTransactions(
+      String address) async {
+    const apiKey = String.fromEnvironment('TZPRO_KEY');
 
-  // setState(() {
-  //   print(balanceResponse.body.toString());
-  //   _amountTz = parseAmount(balanceResponse).toString() + " Tz";
-  //   _amountUsd =
-  //       (parseAmount(balanceResponse) * parseUSDQuote(tickerResponse))
-  //               .toStringAsFixed(2) +
-  //           " USD";
-  // });
+    if (apiKey.isEmpty) {
+      throw AssertionError('API KEY is not retrievable');
+    }
 
-  retrieveTransactions(String address) {
-    // TODO
-    // final domain = constants.apiDomain;
-    // final path =
-    //     constants.apiPathAccount + address + constants.apiTransactionsPostfix;
-    // final parameters = constants.apiTransactionsParameters;
-    // const apiKey = String.fromEnvironment('TZPRO_KEY');
-    // if (apiKey.isEmpty) {
-    //   throw AssertionError('API KEY is not retrievable');
-    // }
+    // TODO adapt limit
+    var response = await http.get(
+        Uri.https(
+            "api.tzpro.io",
+            "/explorer/account/" + address + "/operations",
+            {"type": "transaction", "order": "desc", "limit": "100"}),
+        headers: {"X-API-Key": apiKey});
 
-    // var result = await http.get(Uri.https(domain, path, parameters),
-    //     headers: {"X-API-Key": apiKey});
-
-    // if (result.statusCode == 200) {
-    //   setState(() {
-    //     _transactions = json.decode(result.body);
-    //   });
-    // }
+    return json.decode(response.body);
   }
 }

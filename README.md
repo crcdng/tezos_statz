@@ -61,12 +61,13 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 
 ## TODO
 
-- fix bugs in "About" page links
-
 - overhaul architecture
-- better error handling
 - add tests
 
+- fix bugs in "About" page links
+
+- better error handling
+- check TODO markers
 - improve / expand the color theme
 - add .tez domain support 
 - load more transactions when paginate limit (100) is reached while scrolling down
@@ -99,5 +100,8 @@ Version 1.1
 - update Flutter and dependencies
 - replace deprecated TzStats API with TzPro API
 
+
+
+--
 
 This code is published under the Apache license. It is not affiliated with Blockwatch or Tezos. 

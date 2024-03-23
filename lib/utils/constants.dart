@@ -1,13 +1,6 @@
 final int addressLength = 36;
 final String addressPrefix = "tz";
 
-final apiTransactionsPostfix = "/operations";
-final apiTransactionsParameters = {
-  "type": "transaction",
-  "order": "desc",
-  "limit": "100"
-};
-
 final apiTickersParameters = {"quote": "USD"};
 final apiTickersField = "last";
 

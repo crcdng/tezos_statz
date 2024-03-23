@@ -48,7 +48,8 @@ void main() {
       expect(notified, true);
     });
 
-    test('retrieve balance with API error sets field to empty value', () async {
+    test('retrieve balance with API error sets field to empty string',
+        () async {
       final invalidAddress = "tzffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
       when(() => mockApi.retrieveBalance(invalidAddress))
           .thenThrow(AssertionError("an API error has occurred"));
