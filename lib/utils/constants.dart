@@ -1,6 +1,3 @@
-final int addressLength = 36;
-final String addressPrefix = "tz";
-
 final apiTickersParameters = {"quote": "USD"};
 final apiTickersField = "last";
 

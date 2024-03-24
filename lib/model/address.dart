@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import '../data/storage.dart';
 
 class Address with ChangeNotifier {
+  final int validLength = 36;
   String value = "";
   Storage storage;
 
@@ -21,7 +22,7 @@ class Address with ChangeNotifier {
 
   bool isValid(String? str) {
     return (str != null &&
-        str.length == 36 &&
+        str.length == validLength &&
         RegExp(r'^[A-Za-z0-9]+$').hasMatch(str) &&
         (str.startsWith("tz1") ||
             str.startsWith("tz2") ||

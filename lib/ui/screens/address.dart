@@ -6,7 +6,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tezos_statz/model/address.dart';
-import 'package:tezos_statz/utils/constants.dart' as constants;
 import 'package:tezos_statz/ui/widgets/copyable_address.dart';
 
 class AddressScreen extends StatefulWidget {
@@ -28,8 +27,8 @@ class _AddressScreenState extends State<AddressScreen> {
   void _onQRViewCreated(QRViewController controller) {
     this._qrViewController = controller;
     controller.scannedDataStream.listen((scanData) {
-      final address = scanData.code!
-          .substring(scanData.code!.length - constants.addressLength);
+      final address = scanData.code!.substring(scanData.code!.length -
+          Provider.of<Address>(context, listen: false).validLength);
       if (Provider.of<Address>(context, listen: false).isValid(address)) {
         _player.setAsset("assets/blip.mp3").then((_) => _player.play());
         _pauseScan();
@@ -46,7 +45,7 @@ class _AddressScreenState extends State<AddressScreen> {
       final address = field;
       Provider.of<Address>(context, listen: false).store(address);
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Tz address stored')));
+          .showSnackBar(SnackBar(content: Text('Tezos address stored')));
       _textFormFieldController.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -90,6 +89,12 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Provider.of<Address>(context, listen: false).retrieve();
+  }
+
+  @override
   void dispose() {
     _qrViewController?.dispose();
     _player.dispose();
@@ -108,7 +113,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 : Column(
                     children: [
                       Text(
-                        'Currently stored Tz address:',
+                        'Currently stored address:',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16),
                       ),
@@ -119,7 +124,7 @@ class _AddressScreenState extends State<AddressScreen> {
           }),
           Container(height: 19.0),
           Text(
-            'Enter a Tezos address',
+            'Store a Tezos address',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),
@@ -132,13 +137,14 @@ class _AddressScreenState extends State<AddressScreen> {
                 key: _formKey,
                 child: TextFormField(
                   controller: _textFormFieldController,
-                  maxLength: constants.addressLength,
+                  maxLength:
+                      Provider.of<Address>(context, listen: false).validLength,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
                       counter: Container(),
                       border: OutlineInputBorder(),
-                      labelText: 'Tz address'),
+                      labelText: 'Tezos address'),
                   validator: (value) {
                     if (!Provider.of<Address>(context, listen: false)
                         .isValid(value)) {
@@ -158,7 +164,7 @@ class _AddressScreenState extends State<AddressScreen> {
               : Column(
                   children: [
                     Text(
-                      'Scan a Tz address or TzStats URL',
+                      'Scan a Tezos address or TzStats URL',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16),
                     ),

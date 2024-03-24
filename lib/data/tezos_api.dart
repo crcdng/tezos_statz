@@ -34,6 +34,7 @@ class TezosApi {
         Uri.https("api.tzpro.io", "/explorer/account/" + address),
         headers: {"X-API-Key": apiKey});
 
+    print(response.body);
     return parseAmount(response.body);
   }
 

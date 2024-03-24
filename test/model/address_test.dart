@@ -35,7 +35,7 @@ void main() {
       "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pn",
       "tb2TPCAL3hTSKy5Jv1T7AHmgvX6bZ43tj1YD",
       "tz2TPCAL3hTSKy5Jv1T7ÄHmgvX6bZ43tj1YD",
-      "lol",
+      "\'",
       "",
       null
     ];

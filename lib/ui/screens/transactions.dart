@@ -15,9 +15,9 @@ class _TransfersScreenState extends State<TransfersScreen> {
   late String _tzadress;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
-    _tzadress = Provider.of<Address>(context, listen: false).retrieve();
+    _tzadress = await Provider.of<Address>(context, listen: false).retrieve();
   }
 
   @override

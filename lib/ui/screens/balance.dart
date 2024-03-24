@@ -15,6 +15,14 @@ class BalanceScreen extends StatefulWidget {
 class _BalanceScreenState extends State<BalanceScreen> {
   bool _denominationTezos = true;
 
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    final address =
+        await Provider.of<Address>(context, listen: false).retrieve();
+    Provider.of<Balance>(context, listen: false).retrieve(address);
+    Provider.of<Balance>(context, listen: false).retrieveInUsd(address);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
