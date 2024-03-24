@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tezos_statz/model/address.dart';
 import 'package:tezos_statz/utils/constants.dart' as constants;
-import 'package:tezos_statz/widgets/copyable_address.dart';
+import 'package:tezos_statz/ui/widgets/copyable_address.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class _AddressScreenState extends State<AddressScreen> {
     controller.scannedDataStream.listen((scanData) {
       final address = scanData.code!
           .substring(scanData.code!.length - constants.addressLength);
-      if (isValidTzAddress(address)) {
+      if (Provider.of<Address>(context, listen: false).isValid(address)) {
         _player.setAsset("assets/blip.mp3").then((_) => _player.play());
         _pauseScan();
         Provider.of<Address>(context, listen: false).store(address);
@@ -89,12 +89,6 @@ class _AddressScreenState extends State<AddressScreen> {
             .then((value) => _qrViewController?.resumeCamera()));
   }
 
-  bool isValidTzAddress(String? str) {
-    return (str != null &&
-        str.length == constants.addressLength &&
-        str.startsWith(constants.addressPrefix));
-  }
-
   @override
   void dispose() {
     _qrViewController?.dispose();
@@ -125,7 +119,7 @@ class _AddressScreenState extends State<AddressScreen> {
           }),
           Container(height: 19.0),
           Text(
-            'Enter a Tz address',
+            'Enter a Tezos address',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),
@@ -146,7 +140,8 @@ class _AddressScreenState extends State<AddressScreen> {
                       border: OutlineInputBorder(),
                       labelText: 'Tz address'),
                   validator: (value) {
-                    if (!isValidTzAddress(value)) {
+                    if (!Provider.of<Address>(context, listen: false)
+                        .isValid(value)) {
                       return 'invalid';
                     }
                     return null;
@@ -157,6 +152,7 @@ class _AddressScreenState extends State<AddressScreen> {
             ),
           ),
           Container(height: 19.0),
+          // NOTE kIsWeb needs to be in place here guarding against an exception on web
           (kIsWeb || (!Platform.isAndroid && !Platform.isIOS))
               ? Container()
               : Column(
@@ -185,12 +181,6 @@ class _AddressScreenState extends State<AddressScreen> {
                         //The user picked true.
                         _scanQRCodeDialog();
                       },
-                    ),
-                    Container(height: 19.0),
-                    Text(
-                      'Select an address from the address book',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
                     ),
                   ],
                 ),

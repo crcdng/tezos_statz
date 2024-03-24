@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'model/transactions.dart';
-import 'screens/about.dart';
-import 'screens/address.dart';
-import 'screens/balance.dart';
-import 'screens/transactions.dart';
+import 'ui/screens/about.dart';
+import 'ui/screens/address.dart';
+import 'ui/screens/balance.dart';
+import 'ui/screens/transactions.dart';
 import 'utils/constants.dart' as constants;
 import 'data/storage.dart';
 import 'data/tezos_api.dart';
@@ -16,12 +16,14 @@ import 'model/address.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+  // await SystemChrome.setPreferredOrientations(
+  //    [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
 
-  /// TODO
+  // TODO
+  // if an address has been stored previously, start with the balance screen else with the address screen
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final startScreenIndex = prefs.containsKey(constants.storageKey) ? 1 : 0;
+  print(prefs.get(constants.storageKey));
   runApp(TzStatzApp(startScreenIndex));
 }
 
@@ -55,6 +57,7 @@ class _TzStatzAppState extends State<TzStatzApp> {
   void initState() {
     super.initState();
     _screenIndex = widget.startScreenIndex;
+    print(_screenIndex);
   }
 
   @override

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tezos_statz/model/address.dart';
 
-import '../model/balance.dart';
-import '../utils/utils.dart';
+import '../../model/balance.dart';
+import '../../utils/utils.dart';
 
 class BalanceScreen extends StatefulWidget {
   const BalanceScreen({Key? key}) : super(key: key);

@@ -1,17 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:tezos_statz/utils/constants.dart' as constants;
-import 'package:tezos_statz/widgets/copyable_address.dart';
+import 'package:tezos_statz/ui/widgets/copyable_address.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AboutScreen extends StatefulWidget {
+class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);
 
-  @override
-  _AboutScreenState createState() => _AboutScreenState();
-}
-
-class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,8 +21,19 @@ class _AboutScreenState extends State<AboutScreen> {
                       "This is a demo app that allows you to view Tezos account data. "),
               TextSpan(
                 style: TextStyle(fontSize: 17.0),
-                text:
-                    "It uses the Blockwatch TzPro API. Not affiliated with Blockwatch.",
+                text: "It uses the Blockwatch ",
+              ),
+              TextSpan(
+                style: TextStyle(fontSize: 17.0, color: Colors.blue),
+                text: "TzPro API",
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    launchUrl(Uri.https("tzpro.io"));
+                  },
+              ),
+              TextSpan(
+                style: TextStyle(fontSize: 17.0),
+                text: ". Not affiliated with Blockwatch. ",
               ),
               TextSpan(
                 style: TextStyle(fontSize: 17.0),
@@ -39,7 +44,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 text: "Flutter",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launchUrl(constants.flutterUri);
+                    launchUrl(Uri.https("flutter.dev"));
                   },
               ),
             ]),
@@ -48,7 +53,7 @@ class _AboutScreenState extends State<AboutScreen> {
           GestureDetector(
             child: FlutterLogo(),
             onTap: () {
-              launchUrl(constants.flutterUri);
+              launchUrl(Uri.https("flutter.dev"));
             },
           ),
           Container(height: 17.0),
@@ -64,7 +69,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 text: "Github",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    launchUrl(constants.githubUri);
+                    launchUrl(Uri.https("github.com", "/crcdng/tezos_statz"));
                   },
               ),
               TextSpan(
@@ -75,7 +80,7 @@ class _AboutScreenState extends State<AboutScreen> {
             ]),
           ),
           Container(height: 17.0),
-          CopyableAddress(constants.donationAddress),
+          CopyableAddress("tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk"),
           Container(height: 34.0),
           RichText(
             text:

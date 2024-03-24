@@ -61,18 +61,20 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 
 ## TODO
 
-- overhaul architecture
-- add tests
-
-- fix bugs in "About" page links
-
+- add widget tests
+- add integration test
+- refactor
+- get rid of constants.dart
 - better error handling
-- check TODO markers
+- check remaining TODO markers
+
+- load more transactions when paginate limit (100) is reached while scrolling down
+
+- add a detail view for transactions
 - improve / expand the color theme
 - add .tez domain support 
-- load more transactions when paginate limit (100) is reached while scrolling down
+- support originated addresses (KT1)
 - add statistics (view) 
-- add detail view for transactions
 
 ## DONE
 
@@ -99,6 +101,11 @@ Version 1.1
 
 - update Flutter and dependencies
 - replace deprecated TzStats API with TzPro API
+
+Version 1.2
+- overhaul architecture
+- add unit tests
+- fix bug in "About" page Uris
 
 
 

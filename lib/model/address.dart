@@ -18,4 +18,13 @@ class Address with ChangeNotifier {
     notifyListeners();
     return value;
   }
+
+  bool isValid(String? str) {
+    return (str != null &&
+        str.length == 36 &&
+        RegExp(r'^[A-Za-z0-9]+$').hasMatch(str) &&
+        (str.startsWith("tz1") ||
+            str.startsWith("tz2") ||
+            str.startsWith("tz3")));
+  }
 }

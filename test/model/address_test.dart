@@ -20,6 +20,30 @@ void main() {
     expect(sut.value, "");
   });
 
+  test('valid addresses are confirmed', () async {
+    final validAdresses = [
+      "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk",
+      "tz2TPCAL3hTSKy5Jv1T7AHmgvX6bZ43tj1YD"
+    ];
+    for (var validAdress in validAdresses) {
+      expect(sut.isValid(validAdress), true);
+    }
+  });
+
+  test('invalid addresses are rejected', () async {
+    final invalidAdresses = [
+      "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pn",
+      "tb2TPCAL3hTSKy5Jv1T7AHmgvX6bZ43tj1YD",
+      "tz2TPCAL3hTSKy5Jv1T7ÄHmgvX6bZ43tj1YD",
+      "lol",
+      "",
+      null
+    ];
+    for (var invalidAdress in invalidAdresses) {
+      expect(sut.isValid(invalidAdress), false);
+    }
+  });
+
   group(' store address', () {
     test('store address calls storage of data', () {
       final address = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
