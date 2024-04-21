@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:tezos_statz/domain/entities/address_entity.dart';
 import 'package:tezos_statz/ui/state/address_notifier.dart';
 import 'package:tezos_statz/ui/widgets/copyable_address.dart';
-
-import '../../common/constants.dart' as constants;
-import '../../common/utils.dart' as utils;
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({Key? key}) : super(key: key);
@@ -31,8 +29,8 @@ class _AddressScreenState extends State<AddressScreen> {
     this._qrViewController = controller;
     controller.scannedDataStream.listen((scanData) {
       final address = scanData.code!
-          .substring(scanData.code!.length - constants.addressStringLength);
-      if (utils.isValidAddress(address)) {
+          .substring(scanData.code!.length - AddressEntity.addressStringLength);
+      if (AddressEntity.isValidAddress(address)) {
         _player.setAsset("assets/blip.mp3").then((_) => _player.play());
         _pauseScan();
         Provider.of<AddressNotifier>(context, listen: false).store(address);
@@ -147,7 +145,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 key: _formKey,
                 child: TextFormField(
                   controller: _textFormFieldController,
-                  maxLength: constants.addressStringLength,
+                  maxLength: AddressEntity.addressStringLength,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
@@ -155,7 +153,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       border: OutlineInputBorder(),
                       labelText: 'Tezos address'),
                   validator: (value) {
-                    if (!utils.isValidAddress(value)) {
+                    if (!AddressEntity.isValidAddress(value)) {
                       return 'invalid';
                     }
                     return null;

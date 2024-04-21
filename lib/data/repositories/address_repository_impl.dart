@@ -3,7 +3,6 @@ import 'package:tezos_statz/data/datasources/local_storage.dart';
 import 'package:tezos_statz/data/models/address_model.dart';
 
 import '../../common/errors.dart';
-import '../../common/utils.dart' as utils;
 import '../../domain/entities/address_entity.dart';
 import '../../domain/repositories/address_repository.dart';
 
@@ -13,7 +12,7 @@ class AddressRepositoryImpl implements AddressRepository {
   AddressRepositoryImpl({required this.storage});
 
   Future<Either<Failure, bool>> storeAddress(String address) async {
-    if (!utils.isValidAddress(address)) {
+    if (!AddressEntity.isValidAddress(address)) {
       return const Left(AddressFormatFailure(
           'The Address does not have the correct format.'));
     }

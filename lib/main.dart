@@ -20,15 +20,14 @@ import 'ui/screens/transactions_screen.dart';
 import 'ui/state/address_notifier.dart';
 import 'ui/state/balance_notifier.dart';
 import 'ui/state/transactions_notifier.dart';
-import 'common/constants.dart' as constants;
 
 late SharedPreferences prefs;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // if an address has been stored previously, start with the balance screen else with the address screen
+  // if an address has been previously stored, start with the balance screen else with the address screen
   prefs = await SharedPreferences.getInstance();
-  final startScreenIndex = prefs.containsKey(constants.storageKey) ? 1 : 0;
+  final startScreenIndex = prefs.containsKey("tzaddress") ? 1 : 0;
   runApp(TzStatzApp(startScreenIndex));
 }
 
@@ -65,7 +64,7 @@ class _TzStatzAppState extends State<TzStatzApp> {
     super.initState();
     _screenIndex = widget.startScreenIndex;
     _remoteDataSource = RemoteDataSource(client: http.Client());
-    _localStorage = LocalStorage(storage: prefs, key: constants.storageKey);
+    _localStorage = LocalStorage(storage: prefs, key: "tzaddress");
   }
 
   @override

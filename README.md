@@ -61,18 +61,18 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 
 ## TODO
 
-- refactor unit tests
+- additional unit tests
 - add widget tests
 - add integration test
 - test on mobile 
 
 - better error handling
-- get rid of constants.dart
 - check remaining TODO markers
 
 - transaction handling (currently limited to 100)
 - add a detail view for a transaction
 
+- refactor SharedPreferences in main into LocalStorage
 - improve / expand the color theme
 - add .tez domain support 
 - support originated addresses (KT1)
@@ -114,6 +114,8 @@ Version 1.2
 Version 1.3
 
 - refactor to lightweight clean architecture (excluding unit tests)
+- refactor: get rid of constants.dart
+- refactor unit tests
 
 
 --
