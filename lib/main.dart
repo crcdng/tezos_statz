@@ -2,21 +2,32 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'model/transactions.dart';
+import 'package:tezos_statz/data/datasources/local_storage.dart';
+import 'package:tezos_statz/data/datasources/remote_datasource.dart';
+import 'package:tezos_statz/data/repositories/address_repository_impl.dart';
+import 'package:tezos_statz/data/repositories/balance_repository_impl.dart';
+import 'package:tezos_statz/data/repositories/transaction_repository_impl.dart';
+import 'package:tezos_statz/domain/usecases/retrieve_address.dart';
+import 'package:tezos_statz/domain/usecases/retrieve_balance.dart';
+import 'package:tezos_statz/domain/usecases/retrieve_transactions.dart';
+import 'package:tezos_statz/domain/usecases/store_address.dart';
+import 'package:http/http.dart' as http;
+
 import 'ui/screens/about.dart';
-import 'ui/screens/address.dart';
-import 'ui/screens/balance.dart';
-import 'ui/screens/transactions.dart';
-import 'utils/constants.dart' as constants;
-import 'data/storage.dart';
-import 'data/tezos_api.dart';
-import 'model/balance.dart';
-import 'model/address.dart';
+import 'ui/screens/address_screen.dart';
+import 'ui/screens/balance_screen.dart';
+import 'ui/screens/transactions_screen.dart';
+import 'ui/state/address_notifier.dart';
+import 'ui/state/balance_notifier.dart';
+import 'ui/state/transactions_notifier.dart';
+import 'common/constants.dart' as constants;
+
+late SharedPreferences prefs;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // if an address has been stored previously, start with the balance screen else with the address screen
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs = await SharedPreferences.getInstance();
   final startScreenIndex = prefs.containsKey(constants.storageKey) ? 1 : 0;
   runApp(TzStatzApp(startScreenIndex));
 }
@@ -32,6 +43,8 @@ class TzStatzApp extends StatefulWidget {
 
 class _TzStatzAppState extends State<TzStatzApp> {
   late int _screenIndex;
+  late RemoteDataSource _remoteDataSource;
+  late LocalStorage _localStorage;
 
   static List<String> _titles = <String>[
     'Tezos Address',
@@ -43,7 +56,7 @@ class _TzStatzAppState extends State<TzStatzApp> {
   static List<Widget> _screens = <Widget>[
     AddressScreen(),
     BalanceScreen(),
-    TransfersScreen(),
+    TransactionsScreen(),
     AboutScreen(),
   ];
 
@@ -51,6 +64,8 @@ class _TzStatzAppState extends State<TzStatzApp> {
   void initState() {
     super.initState();
     _screenIndex = widget.startScreenIndex;
+    _remoteDataSource = RemoteDataSource(client: http.Client());
+    _localStorage = LocalStorage(storage: prefs, key: constants.storageKey);
   }
 
   @override
@@ -58,9 +73,29 @@ class _TzStatzAppState extends State<TzStatzApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => Address(Storage(key: constants.storageKey))),
-        ChangeNotifierProvider(create: (context) => Balance(TezosApi())),
-        ChangeNotifierProvider(create: (context) => Transactions(TezosApi())),
+          create: (context) => AddressNotifier(
+            storeAddressUsecase: StoreAddressUsecase(
+                repository: AddressRepositoryImpl(storage: _localStorage)),
+            retrieveAddressUsecase: RetrieveAddressUsecase(
+              repository: AddressRepositoryImpl(storage: _localStorage),
+            ),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BalanceNotifier(
+            usecase: RetrieveBalanceUsecase(
+              repository: BalanceRepositoryImpl(datasource: _remoteDataSource),
+            ),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TransactionsNotifier(
+            usecase: RetrieveTransactionsUsecase(
+              repository:
+                  TransactionsRepositoryImpl(datasource: _remoteDataSource),
+            ),
+          ),
+        ),
       ],
       child: MaterialApp(
         title: 'TzStatz',
