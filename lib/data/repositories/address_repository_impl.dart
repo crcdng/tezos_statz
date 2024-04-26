@@ -11,17 +11,27 @@ class AddressRepositoryImpl implements AddressRepository {
 
   AddressRepositoryImpl({required this.storage});
 
+  bool isValidAddress(address) {
+    // NOTE TODO static cling
+    return AddressEntity.isValidAddress(address);
+  }
+
   Future<Either<Failure, bool>> storeAddress(String address) async {
-    if (!AddressEntity.isValidAddress(address)) {
+    if (!isValidAddress(address)) {
       return const Left(AddressFormatFailure(
-          'The Address does not have the correct format.'));
+          'The address does not have the correct format.'));
     }
     try {
       bool result = await storage.storeItem(address);
-      return Right(result);
+      if (result) {
+        return Right(result);
+      } else {
+        return const Left(StorageItemStoreFailure(
+            'The address storage failed to report success.'));
+      }
     } on StorageAccessException {
       return const Left(
-          StorageAccessFailure('The Storage cannot be accessed.'));
+          StorageAccessFailure('The address storage cannot be accessed.'));
     }
   }
 

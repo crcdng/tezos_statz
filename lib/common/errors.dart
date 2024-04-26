@@ -11,6 +11,10 @@ class StorageAccessFailure extends Failure {
   const StorageAccessFailure(super.message);
 }
 
+class StorageItemStoreFailure extends Failure {
+  const StorageItemStoreFailure(super.message);
+}
+
 class ServerFailure extends Failure {
   const ServerFailure(super.message);
 }

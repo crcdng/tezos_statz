@@ -57,30 +57,32 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 
 ## STATUS
 
-**Working** the app is working again with the new TzPro API
+**Rewrite completed** the app is working with the new TzPro API, rewritten in lightweight clean architecture and tested 
 
 ## TODO
 
-- additional unit tests
 - add widget tests
 - add integration test
 - test on mobile 
 
-- better error handling
+- better error ui
+- add  description to ServerException() 
 - check remaining TODO markers
 
-- transaction handling (currently limited to 100)
+- improve transaction handling (currently limited to 100)
 - add a detail view for a transaction
 
 - refactor SharedPreferences in main into LocalStorage
 - improve / expand the color theme
 - add .tez domain support 
 - support originated addresses (KT1)
+
 - add statistics (view) 
 
 ## DONE
 
 Version 1.0
+"minimal prototype"
 
 - create a minimal implementation, model-free (just functions) 🤯
 - pull to refresh
@@ -99,23 +101,27 @@ Version 1.0
 - address: QR scan sound
 - fix late initialization and setState after dispose
 
-Version 1.1
+Version 1.1 
+"new API"
 
 - update Flutter and dependencies
 - replace deprecated TzStats API with TzPro API
 - handle API key via ENV variable
 
 Version 1.2
+"rewrite architecture"
 
 - overhaul architecture
 - add unit tests
 - fix bug in "About" page URIs
 
 Version 1.3
+"rewrite architecture again and test thoroughly"
 
 - refactor to lightweight clean architecture (excluding unit tests)
 - refactor: get rid of constants.dart
 - refactor unit tests
+- add additional unit tests
 
 
 --

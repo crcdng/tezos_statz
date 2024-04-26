@@ -18,6 +18,10 @@ class LocalStorage {
 
   Future<bool> storeItem(String item) async {
     bool result = await storage.setString(key, item);
+
+    // NOTE return value not properly documented, true means success
+    // see https://github.com/flutter/flutter/issues/146070
+
     if (result) {
       return result;
     } else {

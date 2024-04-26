@@ -20,37 +20,49 @@ void main() {
     sut = StoreAddressUsecase(repository: mockAddressRepository);
   });
 
-  test('should call the repository method', () async {
-    when(() => mockAddressRepository
-            .storeAddress('tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk'))
+  // TODO this test fails -> refactor the isValidAddress method
+  test('should call isValidAddress', () async {
+    const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
+
+    when(() => mockAddressRepository.storeAddress(testAddress))
         .thenAnswer((_) async => Right(true));
 
-    await sut.call(address: 'tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk');
+    await sut.call(address: testAddress);
 
-    verify(() => mockAddressRepository
-        .storeAddress('tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk')).called(1);
+    verify(() => mockAddressRepository.isValidAddress(testAddress)).called(1);
+  });
+
+  test('should call the repository method', () async {
+    const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
+
+    when(() => mockAddressRepository.storeAddress(testAddress))
+        .thenAnswer((_) async => Right(true));
+
+    await sut.call(address: testAddress);
+
+    verify(() => mockAddressRepository.storeAddress(testAddress)).called(1);
   });
 
   // NOTE use case returns a Future<Either<Failure, bool>>
   test('should pass true when storage succeeds', () async {
-    when(() => mockAddressRepository
-            .storeAddress('tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk'))
+    const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
+
+    when(() => mockAddressRepository.storeAddress(testAddress))
         .thenAnswer((_) async => Right(true));
 
-    final result =
-        await sut.call(address: 'tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk');
+    final result = await sut.call(address: testAddress);
 
     expect(result, const Right(true));
   });
 
   test('should pass a failure when the API reports an error', () async {
-    when(() =>
-        mockAddressRepository.storeAddress(
-            'tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk')).thenAnswer((_) async =>
-        const Left(StorageAccessFailure('The Storage cannot be accessed.')));
+    const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
 
-    final result =
-        await sut.call(address: 'tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk');
+    when(() => mockAddressRepository.storeAddress(testAddress)).thenAnswer(
+        (_) async => const Left(
+            StorageAccessFailure('The Storage cannot be accessed.')));
+
+    final result = await sut.call(address: testAddress);
 
     expect(result,
         const Left(StorageAccessFailure('The Storage cannot be accessed.')));
