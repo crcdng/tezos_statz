@@ -20,18 +20,6 @@ void main() {
     sut = StoreAddressUsecase(repository: mockAddressRepository);
   });
 
-  // TODO this test fails -> refactor the isValidAddress method
-  test('should call isValidAddress', () async {
-    const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
-
-    when(() => mockAddressRepository.storeAddress(testAddress))
-        .thenAnswer((_) async => Right(true));
-
-    await sut.call(address: testAddress);
-
-    verify(() => mockAddressRepository.isValidAddress(testAddress)).called(1);
-  });
-
   test('should call the repository method', () async {
     const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
 

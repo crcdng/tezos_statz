@@ -25,7 +25,9 @@ void main() {
     test('should call storage set method', () async {
       when(() => mockSharedPreferences.setString(testKey, testAddress))
           .thenAnswer((_) async => true);
+
       await sut.storeItem(testAddress);
+
       verify(() => mockSharedPreferences.setString(testKey, testAddress))
           .called(1);
     });
@@ -43,7 +45,9 @@ void main() {
   group(' retrieve address', () {
     test('should call storage get method', () async {
       when(() => mockSharedPreferences.getString(testKey)).thenReturn("");
+
       await sut.retrieveItem();
+
       verify(() => mockSharedPreferences.getString(testKey)).called(1);
     });
 

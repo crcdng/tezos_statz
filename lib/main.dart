@@ -72,13 +72,16 @@ class _TzStatzAppState extends State<TzStatzApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => AddressNotifier(
-            storeAddressUsecase: StoreAddressUsecase(
-                repository: AddressRepositoryImpl(storage: _localStorage)),
-            retrieveAddressUsecase: RetrieveAddressUsecase(
-              repository: AddressRepositoryImpl(storage: _localStorage),
-            ),
-          ),
+          create: (context) {
+            final addressRepositoryImpl =
+                AddressRepositoryImpl(storage: _localStorage);
+            return AddressNotifier(
+              storeAddressUsecase:
+                  StoreAddressUsecase(repository: addressRepositoryImpl),
+              retrieveAddressUsecase:
+                  RetrieveAddressUsecase(repository: addressRepositoryImpl),
+            );
+          },
         ),
         ChangeNotifierProvider(
           create: (context) => BalanceNotifier(

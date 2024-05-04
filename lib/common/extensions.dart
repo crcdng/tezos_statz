@@ -17,3 +17,17 @@ extension NumberParsing on num? {
     return this!.toDouble();
   }
 }
+
+extension DateTimeFormatting on DateTime {
+  String formatDateTime() {
+    String padLeft(String s) => s.length == 1 ? "0" + s : s;
+
+    String y = this.year.toString();
+    String m = padLeft(this.month.toString());
+    String d = padLeft(this.day.toString());
+    String h = padLeft(this.hour.toString());
+    String min = padLeft(this.minute.toString());
+    String sec = padLeft(this.second.toString());
+    return "$y-$m-$d $h:$min:$sec";
+  }
+}

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tezos_statz/ui/state/address_notifier.dart';
 import 'package:tezos_statz/ui/state/balance_notifier.dart';
 
-import '../../common/utils.dart' as utils;
+import '../../common/extensions.dart' as extensions;
 
 class BalanceScreen extends StatefulWidget {
   const BalanceScreen({Key? key}) : super(key: key);
@@ -85,7 +85,8 @@ class _BalanceScreenState extends State<BalanceScreen> {
                           height: 20.0,
                         ),
                         Text(
-                          utils.formatDateTime(DateTime.now()),
+                          extensions.DateTimeFormatting(DateTime.now())
+                              .formatDateTime(),
                           style: TextStyle(fontSize: 12.0),
                         ),
                         Container(

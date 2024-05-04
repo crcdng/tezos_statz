@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tezos_statz/ui/state/address_notifier.dart';
 import 'package:tezos_statz/ui/state/transactions_notifier.dart';
 
-import '../../common/utils.dart' as utils;
+import '../../common/extensions.dart' as extensions;
 
 class TransactionsScreen extends StatefulWidget {
   const TransactionsScreen({Key? key}) : super(key: key);
@@ -65,7 +65,9 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                     title: Text(isExpense
                         ? "Sent $volume Tz to $receiver"
                         : "Received $volume Tz from $sender"),
-                    subtitle: Text(utils.formatDateTime(DateTime.parse(time))),
+                    subtitle: Text(
+                        extensions.DateTimeFormatting(DateTime.parse(time))
+                            .formatDateTime()),
                   );
                 },
               );

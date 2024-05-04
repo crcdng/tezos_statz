@@ -24,7 +24,7 @@ void main() {
   });
 
   group('Store an Address', () {
-    test('should store an Address', () async {
+    test('should store a valid tz1 address', () async {
       const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
 
       when(() => mockLocalStorage.storeItem(testAddress))
@@ -35,20 +35,82 @@ void main() {
       expect(result, Right(true));
     });
 
-    // NOTE we test if the validation method bool `isValidAddress(address)` is called in this repositry implementation in a use case test in `store_address_test.dart`
-    // because `verify().called()` needs a stub
-    //
-    // the method is a wrapper around `static bool isValidAddress(String? str)` in the `AddressEntity`
-    // because static methods and extension methods cannot be stubbed/verified
-    // https://pub.dev/packages/mocktail
+    test('should store a valid tz2 address', () async {
+      const testAddress = "tz2ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
+
+      when(() => mockLocalStorage.storeItem(testAddress))
+          .thenAnswer((_) async => true);
+
+      final result = await sut.storeAddress(testAddress);
+
+      expect(result, Right(true));
+    });
+
+    test('should store a valid tz3 address', () async {
+      const testAddress = "tz3ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
+
+      when(() => mockLocalStorage.storeItem(testAddress))
+          .thenAnswer((_) async => true);
+
+      final result = await sut.storeAddress(testAddress);
+
+      expect(result, Right(true));
+    });
 
     test(
-        'should return a AddressFormatFailure when the address does not have the correct format',
+        'should return a AddressFormatFailure when the address starts with wrong prefix',
+        () async {
+      const testAddress = "tz4ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnk";
+
+      final result = await sut.storeAddress(testAddress);
+
+      expect(
+          result,
+          const Left(AddressFormatFailure(
+              'The address does not have the correct format.')));
+    });
+
+    test('should return a AddressFormatFailure when the address is too short',
         () async {
       const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pn";
 
-      // when(() => mockLocalStorage.storeItem(testAddress))
-      //     .thenAnswer(() async => false);
+      final result = await sut.storeAddress(testAddress);
+
+      expect(
+          result,
+          const Left(AddressFormatFailure(
+              'The address does not have the correct format.')));
+    });
+
+    test('should return a AddressFormatFailure when the address is too long',
+        () async {
+      const testAddress = "tz1ffYDwFHchNy5vA5isuCAK2yVxh4Ye9pnkd";
+
+      final result = await sut.storeAddress(testAddress);
+
+      expect(
+          result,
+          const Left(AddressFormatFailure(
+              'The address does not have the correct format.')));
+    });
+
+    test(
+        'should return a AddressFormatFailure when the address contains a special character',
+        () async {
+      const testAddress = "tz1ffYDwFHchNy5vA😀isuCAK2yVxh4Ye9pnk";
+
+      final result = await sut.storeAddress(testAddress);
+
+      expect(
+          result,
+          const Left(AddressFormatFailure(
+              'The address does not have the correct format.')));
+    });
+
+    test(
+        'should return a AddressFormatFailure when the address is the empty string',
+        () async {
+      const testAddress = "";
 
       final result = await sut.storeAddress(testAddress);
 

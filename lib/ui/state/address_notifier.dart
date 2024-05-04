@@ -16,7 +16,7 @@ class AddressNotifier with ChangeNotifier {
       {required this.storeAddressUsecase,
       required this.retrieveAddressUsecase});
 
-  void store(String address) async {
+  Future<void> store(String address) async {
     final result = await storeAddressUsecase(address: address);
     result.fold((failure) {
       this.failure = failure;
@@ -26,7 +26,7 @@ class AddressNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  void retrieve() async {
+  Future<void> retrieve() async {
     final result = await retrieveAddressUsecase();
     result.fold((failure) {
       this.failure = failure;
