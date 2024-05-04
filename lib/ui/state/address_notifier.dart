@@ -23,6 +23,7 @@ class AddressNotifier with ChangeNotifier {
     }, (data) {
       success = data;
     });
+    print("called");
     notifyListeners();
   }
 

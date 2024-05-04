@@ -12,7 +12,7 @@ class AddressRepositoryImpl implements AddressRepository {
   AddressRepositoryImpl({required this.storage});
 
   bool isValidAddress(address) {
-    // NOTE TODO static cling, depends on global method
+    // NOTE TODO "static cling", depends on a static /global method
     // inject validation function in constructor
     return AddressEntity.isValidAddress(address);
   }

@@ -11,7 +11,7 @@ class TransactionsNotifier with ChangeNotifier {
 
   TransactionsNotifier({required this.usecase});
 
-  void getTransactions(String address) async {
+  Future<void> getTransactions(String address) async {
     final result = await usecase(address: address);
     result.fold((failure) {
       this.failure = failure;

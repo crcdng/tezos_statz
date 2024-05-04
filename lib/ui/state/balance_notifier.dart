@@ -10,7 +10,7 @@ class BalanceNotifier with ChangeNotifier {
 
   BalanceNotifier({required this.usecase});
 
-  void getBalance(String address) async {
+  Future<void> getBalance(String address) async {
     final result = await usecase(address: address);
     result.fold((failure) {
       this.failure = failure;

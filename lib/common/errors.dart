@@ -7,20 +7,20 @@ class StorageItemRetrieveFailure extends Failure {
   const StorageItemRetrieveFailure(super.message);
 }
 
-class StorageAccessFailure extends Failure {
-  const StorageAccessFailure(super.message);
-}
-
 class StorageItemStoreFailure extends Failure {
   const StorageItemStoreFailure(super.message);
 }
 
-class ServerFailure extends Failure {
-  const ServerFailure(super.message);
-}
-
 class AddressFormatFailure extends Failure {
   const AddressFormatFailure(super.message);
+}
+
+class StorageAccessFailure extends Failure {
+  const StorageAccessFailure(super.message);
+}
+
+class ServerFailure extends Failure {
+  const ServerFailure(super.message);
 }
 
 class ServerException implements Exception {}

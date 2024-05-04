@@ -57,27 +57,31 @@ Blip sound by: http://jazzy.junggle.net/ (CC BY 3.0)
 
 ## STATUS
 
-**Rewrite completed** the app is working with the new TzPro API, rewritten in lightweight clean architecture and tested 
+**Rewrite completed** the app is working with the new TzPro API, rewritten in lightweight clean architecture and adding tests is in progress 
 
 ## TODO
 
-- add widget tests
+- add tests for the ui layer: widget tests
 - add integration test
-- test on mobile 
+- test platform specific feature (qr code scanner)
+- test on mobile device
 
 - better error ui
-- add  description to ServerException() 
 - check remaining TODO markers
 
-- improve transaction handling (currently limited to 100)
-- add a detail view for a transaction
+- improve transaction handling (currently limited to 100) https://docs.flutter.dev/cookbook/lists/long-lists 
+- improve information on transactions
+- add a filter for transactions types, e.g. transfers
 
-- refactor SharedPreferences in main into LocalStorage
+- refactor dependency on SharedPreferences in main into LocalStorage
 - improve / expand the color theme
-- add .tez domain support 
-- support originated addresses (KT1)
 
+- add a detail view for transactions
 - add statistics (view) 
+
+- add .tez domain support 
+- add view support for specific tokens
+- support originated addresses (KT1)
 
 ## DONE
 
@@ -118,11 +122,11 @@ Version 1.2
 Version 1.3
 "rewrite architecture again and test thoroughly"
 
-- refactor to lightweight clean architecture (excluding unit tests)
+- refactor to lightweight clean architecture 
 - refactor: get rid of constants.dart
 - refactor unit tests
 - add additional unit tests
-
+- add tests for the ui layer: notifiers 
 
 --
 
